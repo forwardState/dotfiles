@@ -34,7 +34,7 @@ return {
     end,
     dependencies = {
       "hiphish/rainbow-delimiters.nvim",
-      "JoosepAlviste/nvim-ts-context-commentstring",
+      --"JoosepAlviste/nvim-ts-context-commentstring",
       "nvim-treesitter/nvim-treesitter-textobjects",
       "RRethy/nvim-treesitter-textsubjects",
     },
@@ -521,6 +521,8 @@ return {
   },
   {
     "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    opts= {},
     event = "BufReadPre",
     config = function()
       require("plugins.indent")
