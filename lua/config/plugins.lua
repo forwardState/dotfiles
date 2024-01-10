@@ -34,7 +34,7 @@ return {
     end,
     dependencies = {
       "hiphish/rainbow-delimiters.nvim",
-      --"JoosepAlviste/nvim-ts-context-commentstring",
+      "JoosepAlviste/nvim-ts-context-commentstring",
       "nvim-treesitter/nvim-treesitter-textobjects",
       "RRethy/nvim-treesitter-textsubjects",
     },
@@ -92,7 +92,24 @@ return {
     lazy = false,
     config = true, -- run require("stay-in-place").setup()
   },
-
+  {
+    "ThePrimeagen/refactoring.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    cmd = "Refactor",
+    keys = {
+      { "<leader>re", ":Refactor extract ",              mode = "x",          desc = "Extract function" },
+      { "<leader>rf", ":Refactor extract_to_file ",      mode = "x",          desc = "Extract function to file" },
+      { "<leader>rv", ":Refactor extract_var ",          mode = "x",          desc = "Extract variable" },
+      { "<leader>ri", ":Refactor inline_var",            mode = { "x", "n" }, desc = "Inline variable" },
+      { "<leader>rI", ":Refactor inline_func",           mode = "n",          desc = "Inline function" },
+      { "<leader>rb", ":Refactor extract_block",         mode = "n",          desc = "Extract block" },
+      { "<leader>rf", ":Refactor extract_block_to_file", mode = "n",          desc = "Extract block to file" },
+    },
+    config = true
+  },
   -- LSP Base
   {
     "neovim/nvim-lspconfig",
@@ -146,6 +163,7 @@ return {
           require("copilot_cmp").setup()
         end,
       },
+      "petertriho/cmp-git"
     },
   },
 
@@ -218,9 +236,9 @@ return {
   {
     "antosha417/nvim-lsp-file-operations",
     event = "LspAttach",
-    requires = {
+    dependencies = {
       { "nvim-lua/plenary.nvim" },
-      { "kyazdani42/nvim-tree.lua" },
+      { "nvim-tree/nvim-tree.lua" },
     },
     config = function()
       require("lsp-file-operations").setup()
@@ -229,6 +247,11 @@ return {
 
   -- General
   { "AndrewRadev/switch.vim", lazy = false },
+  {"krady21/compiler-explorer.nvim", lazy = false,
+    config = function()
+      require("plugins.compilerexplorer")
+    end
+  },
   {
     "Wansmer/treesj",
     lazy = true,
@@ -245,7 +268,7 @@ return {
   {
     "numToStr/Comment.nvim",
     lazy = false,
-    branch = "jsx",
+    dependencies = "JoosepAlviste/nvim-ts-context-commentstring",
     config = function()
       require("plugins.comment")
     end,
@@ -279,7 +302,13 @@ return {
       'nvim-treesitter/nvim-treesitter',
       'smoka7/hydra.nvim',
     },
-    config = true,
+    opts = {
+      hint_config = {
+        border = EcoVim.ui.float.border or "rounded",
+        position = 'bottom',
+        show_name = false,
+      }
+    },
     keys = {
       {
         '<LEADER>m',
@@ -330,7 +359,11 @@ return {
   {
     "folke/flash.nvim",
     event = "VeryLazy",
-    opts = {},
+    opts = {
+      char = {
+        keys = { "f", "F", "t", "T" },
+      }
+    },
     keys = {
       {
         "s",
@@ -406,7 +439,6 @@ return {
       { "<Leader>bsr", "<cmd>BufferLineSortByRelativeDirectory<CR>", desc = "Sort by relative dir" },
     }
   },
-  { "antoinemadec/FixCursorHold.nvim" }, -- Needed while issue https://github.com/neovim/neovim/issues/12587 is still open
   {
     "rcarriga/nvim-notify",
     config = function()
@@ -470,7 +502,8 @@ return {
   },
   {
     "kylechui/nvim-surround",
-    lazy = false,
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
     config = true,
   },
   {
@@ -580,6 +613,26 @@ return {
     },
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     ft = { "html", "svelte", "astro", "vue", "typescriptreact" },
+  },
+  {
+    "MaximilianLloyd/tw-values.nvim",
+    keys = {
+      { "<Leader>cv", "<CMD>TWValues<CR>", desc = "Tailwind CSS values" },
+    },
+    opts = {
+      border = EcoVim.ui.float.border or "rounded", -- Valid window border style,
+      show_unknown_classes = true                   -- Shows the unknown classes popup
+    }
+  },
+  {
+    "laytan/tailwind-sorter.nvim",
+    cmd = {
+      "TailwindSort",
+      "TailwindSortOnSaveToggle"
+    },
+    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-lua/plenary.nvim" },
+    build = "cd formatter && npm i && npm run build",
+    config = true,
   },
 
   -- AI
@@ -701,6 +754,20 @@ return {
     end,
   },
 
+  {
+    "pwntester/octo.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+      "nvim-tree/nvim-web-devicons",
+    },
+    cmd = {
+      "Octo",
+    },
+    config = function()
+      require('plugins.git.octo')
+    end
+  },
   -- Testing
   {
     "rcarriga/neotest",
