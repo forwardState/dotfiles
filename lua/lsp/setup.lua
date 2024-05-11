@@ -31,7 +31,7 @@ mason_lsp.setup({
     "gopls",
     "pylsp",
     "terraformls",
-    "zls"
+    "zls",
   },
   -- Whether servers that are set up (via lspconfig) should be automatically installed if they're not already installed.
   -- This setting has no relation with the `ensure_installed` setting.
@@ -115,7 +115,8 @@ lspconfig.vuels.setup({
   settings = require("lsp.servers.vuels").settings,
 })
 
-for _, server in ipairs({ "bashls", "emmet_ls", "graphql", "html", "prismals", "clangd", "svelte", "gopls", "pylsp", "terraformls", "zls",  }) do
+
+for _, server in ipairs({ "bashls", "emmet_ls", "graphql", "html", "prismals", "clangd", "svelte", "gopls", "pylsp", "terraformls", "zls", "mojo" }) do
   lspconfig[server].setup({
     on_attach = on_attach,
     capabilities = capabilities,
@@ -125,5 +126,5 @@ end
 
 require("ufo").setup({
   fold_virt_text_handler = ufo_config_handler,
-  close_fold_kinds = { "imports" },
+  close_fold_kinds_for_ft = { default = {'imports'} },
 })
