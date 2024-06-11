@@ -50,6 +50,7 @@ require('telescope').setup {
         ["<C-x>"] = false,
         ["<C-j>"] = actions.move_selection_next,
         ["<C-k>"] = actions.move_selection_previous,
+        ["<C-g>"] = actions.preview_scrolling_right,
         ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
         ["<C-s>"] = actions.cycle_previewers_next,
         ["<C-a>"] = actions.cycle_previewers_prev,

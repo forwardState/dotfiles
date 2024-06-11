@@ -359,6 +359,9 @@ return {
   {
     "folke/flash.nvim",
     event = "VeryLazy",
+    config = function()
+      require("flash").toggle()
+    end,
     opts = {
       char = {
         keys = { "f", "F", "t", "T" },
@@ -371,8 +374,15 @@ return {
         function()
           require("flash").jump()
         end,
-      },
-    },
+      },{ "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash"},
+      -- { "tf",
+      --   mode = { "c" },
+      --   function()
+      --     require("flash").toggle()
+      --   end,
+      --   desc = "Toggle Flash Search"
+      -- }
+    }
   },
   {
     "folke/which-key.nvim",
